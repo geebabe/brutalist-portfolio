@@ -1,0 +1,64 @@
+---
+title: "Getting Started with LLMs and RAG"
+description: "A practical introduction to building retrieval-augmented generation systems with modern LLM frameworks."
+date: "2025-01-15"
+tags: ["LLMs", "RAG", "LangChain"]
+coverImage: "/blog/rag-introduction.png"
+---
+
+# Getting Started with LLMs and RAG
+
+Retrieval-augmented generation (RAG) has become one of the most practical approaches to building AI systems that work with custom data. In this post, I'll walk through the fundamentals and show you how to get started.
+
+## What is RAG?
+
+RAG combines the power of large language models with your own data. Instead of fine-tuning a model (which is expensive and slow), you:
+
+1. **Retrieve** relevant documents from your knowledge base
+2. **Augment** the LLM prompt with this context
+3. **Generate** responses based on both the LLM's knowledge and your specific data
+
+## Why RAG?
+
+Traditional approaches have limitations:
+
+- **Fine-tuning** is resource-intensive and requires retraining
+- **Prompting alone** is limited by context window size
+- **RAG** gives you the best of both worlds: flexibility and cost-efficiency
+
+## Getting Started
+
+Here's a simple RAG pipeline with LangChain:
+
+```python
+from langchain.vectorstores import Chroma
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.chains import RetrievalQA
+from langchain.llms import OpenAI
+
+# Initialize components
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma(
+    collection_name="my_documents",
+    embedding_function=embeddings
+)
+
+# Create retrieval chain
+qa = RetrievalQA.from_chain_type(
+    llm=OpenAI(),
+    chain_type="stuff",
+    retriever=vectorstore.as_retriever()
+)
+
+# Query
+response = qa.run("What is the main topic of my documents?")
+```
+
+## Next Steps
+
+- Experiment with different retrieval strategies
+- Optimize your embeddings
+- Fine-tune your prompts for better results
+- Consider using frameworks like LlamaIndex for more advanced use cases
+
+RAG is rapidly evolving, so stay curious and keep experimenting!

@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void:            #080810;
+  --deep-indigo:     #0E0C18;
+  --shadow:          #151225;
+  --border-dim:      #1E1A35;
+  --border-mid:      #2E2850;
+  --violet-dim:      #4B3F88;
+  --violet:          #6B5EA8;
+  --violet-bright:   #9B8FD8;
+  --parchment-dim:   #8A85A0;
+  --parchment-mid:   #C4BEDC;
+  --parchment:       #E8E4F0;
+  --parchment-light: #F5F2FF;
+  --spice-gold:      #C9A84C;
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-void text-parchment-mid font-sans font-light leading-relaxed;
+  }
+
+  ::selection {
+    @apply bg-violet/30 text-parchment-light;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { @apply bg-void; }
+  ::-webkit-scrollbar-thumb { @apply bg-border-mid; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-prose {
+    @apply max-w-prose mx-auto;
+  }
+
+  .container-wide {
+    @apply max-w-6xl mx-auto;
+  }
+
+  .container-full {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-ritual text-violet mb-4 block;
+  }
+
+  .section-spacing {
+    @apply py-20 lg:py-28;
+  }
+
+  .btn-primary {
+    @apply font-mono text-xs uppercase tracking-ritual text-parchment border border-border-mid px-8 py-3 bg-transparent cursor-pointer transition-colors duration-300 hover:border-violet hover:text-parchment-light;
+  }
+
+  .btn-secondary {
+    @apply font-mono text-xs uppercase tracking-ritual text-parchment-dim bg-transparent cursor-pointer transition-colors duration-300 hover:text-violet-bright px-8 py-3;
+  }
+
+  .card-accent {
+    @apply border-l border-violet-dim pl-6 py-6 transition-colors duration-300 hover:border-violet;
+  }
+
+  .text-body {
+    @apply text-base font-light leading-relaxed text-parchment-mid;
+  }
+
+  .text-caption {
+    @apply font-mono text-xs uppercase tracking-wide text-parchment-dim;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+}

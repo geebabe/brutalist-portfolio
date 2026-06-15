@@ -1,0 +1,123 @@
+[
+  {
+    "category": "LLM & AI",
+    "icon": "Brain",
+    "items": [
+      { "name": "LangGraph", "icon": "" },
+      { "name": "LangChain", "icon": "" },
+      { "name": "LlamaIndex", "icon": "" },
+      { "name": "OpenAI API", "icon": "SiOpenai" },
+      { "name": "Mem0", "icon": "" },
+      { "name": "DSPy", "icon": "" },
+      { "name": "RAG", "icon": "" },
+      { "name": "Prompt Engineering", "icon": "" },
+      { "name": "Fine-tuning", "icon": "" }
+    ]
+  },
+  {
+    "category": "Agent Frameworks",
+    "icon": "GitGraph",
+    "items": [
+      { "name": "Multi-Agent Systems", "icon": "" },
+      { "name": "Agent Orchestration", "icon": "" },
+      { "name": "Routing & Retrieval", "icon": "" },
+      { "name": "Validation & Guardrails", "icon": "" },
+      { "name": "Self-Correction Loops", "icon": "" },
+      { "name": "n8n", "icon": "" }
+    ]
+  },
+  {
+    "category": "Deep Learning & Models",
+    "icon": "Zap",
+    "items": [
+      { "name": "PyTorch", "icon": "SiPytorch" },
+      { "name": "TensorFlow", "icon": "SiTensorflow" },
+      { "name": "Hugging Face Transformers", "icon": "" },
+      { "name": "vLLM", "icon": "" },
+      { "name": "Unsloth", "icon": "" },
+      { "name": "Llama 3 & Mistral", "icon": "" },
+      { "name": "Qwen Models", "icon": "" },
+      { "name": "QLoRA", "icon": "" }
+    ]
+  },
+  {
+    "category": "RAG & Vector Databases",
+    "icon": "Database",
+    "items": [
+      { "name": "ChromaDB", "icon": "" },
+      { "name": "Qdrant", "icon": "" },
+      { "name": "Milvus", "icon": "" },
+      { "name": "FAISS", "icon": "" },
+      { "name": "Metadata Enrichment", "icon": "" },
+      { "name": "Retrieval Evaluation", "icon": "" }
+    ]
+  },
+  {
+    "category": "Backend & APIs",
+    "icon": "Server",
+    "items": [
+      { "name": "FastAPI", "icon": "SiFastapi" },
+      { "name": "Docker", "icon": "SiDocker" },
+      { "name": "Kubernetes", "icon": "SiKubernetes" },
+      { "name": "Azure DevOps", "icon": "SiMicrosoftazure" },
+      { "name": "Streamlit", "icon": "" },
+      { "name": "LangServe", "icon": "" }
+    ]
+  },
+  {
+    "category": "Data & MLOps",
+    "icon": "BarChart3",
+    "items": [
+      { "name": "Apache Airflow", "icon": "" },
+      { "name": "PySpark", "icon": "SiApachespark" },
+      { "name": "MLflow", "icon": "" },
+      { "name": "Langfuse", "icon": "" },
+      { "name": "GCP", "icon": "SiGooglecloud" },
+      { "name": "RAGAS", "icon": "" }
+    ]
+  },
+  {
+    "category": "Databases & Storage",
+    "icon": "HardDrive",
+    "items": [
+      { "name": "PostgreSQL", "icon": "SiPostgresql" },
+      { "name": "MySQL", "icon": "SiMysql" },
+      { "name": "MongoDB", "icon": "SiMongodb" },
+      { "name": "Redis", "icon": "SiRedis" }
+    ]
+  },
+  {
+    "category": "NLP & Document Processing",
+    "icon": "FileText",
+    "items": [
+      { "name": "Low-Resource NLP", "icon": "" },
+      { "name": "Multilingual Models", "icon": "" },
+      { "name": "Corpus Curation", "icon": "" },
+      { "name": "OCR & Vision", "icon": "" },
+      { "name": "YOLO", "icon": "" },
+      { "name": "Docling", "icon": "" },
+      { "name": "Crawl4AI", "icon": "" }
+    ]
+  },
+  {
+    "category": "Programming Languages",
+    "icon": "Code",
+    "items": [
+      { "name": "Python", "icon": "SiPython" },
+      { "name": "SQL", "icon": "" },
+      { "name": "JavaScript", "icon": "SiJavascript" },
+      { "name": "Java", "icon": "" }
+    ]
+  },
+  {
+    "category": "Specialized Skills",
+    "icon": "Lightbulb",
+    "items": [
+      { "name": "Retrieval Evaluation", "icon": "" },
+      { "name": "Error Analysis", "icon": "" },
+      { "name": "System Design", "icon": "" },
+      { "name": "Time Management", "icon": "" },
+      { "name": "Critical Thinking", "icon": "" }
+    ]
+  }
+]

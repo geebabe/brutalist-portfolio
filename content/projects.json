@@ -1,0 +1,62 @@
+[
+  {
+    "id": "project-1",
+    "title": "Life Assistant: Persistent Multi-Agent System",
+    "description": "An intelligent multi-agent life assistant with long-term memory, intent routing, and real-time web research.",
+    "longDescription": "Designed and implemented a persistent multi-agent system using LangGraph-based orchestration with specialized nodes for intent detection, memory retrieval, web research, and response generation. Features Pydantic-based structured outputs and critique-based self-correction for personalized, context-aware decisions.",
+    "tags": ["LangGraph", "Mem0", "OpenAI", "Tavily Search", "FastAPI", "Pydantic", "Multi-Agent Systems"],
+    "githubUrl": "",
+    "liveUrl": "",
+    "thumbnail": "",
+    "featured": true,
+    "year": 2026
+  },
+  {
+    "id": "project-2",
+    "title": "Intelligent Document Processing (IDP) Pipeline",
+    "description": "Production-ready OCR and LLM inference pipeline processing 2,000+ invoices daily with 70% latency reduction.",
+    "longDescription": "Designed an asynchronous FastAPI service that parallelized OCR and LLM inference stages, reducing multi-page document latency by ~70%. Built a hybrid routing layer across Qwen2.5-VL, YOLO layout detection, and OCR engines to select backends by layout complexity and cost. Deployed production pipeline processing 2,000-5,000+ invoices/day, achieving >95% field-level accuracy with <7s/page latency.",
+    "tags": ["FastAPI", "Azure DevOps", "OpenAI", "LangChain", "Qwen2.5-VL", "YOLO", "OCR"],
+    "githubUrl": "",
+    "liveUrl": "",
+    "thumbnail": "",
+    "featured": true,
+    "year": 2025
+  },
+  {
+    "id": "project-3",
+    "title": "Intelligent Helpdesk Chatbot",
+    "description": "Production RAG chatbot for internal technical support and enterprise knowledge retrieval.",
+    "longDescription": "Architected and deployed a Retrieval-Augmented Generation chatbot designed to automate internal technical support. Engineered a complex RAG pipeline using LangChain and Qdrant for high-precision semantic search over enterprise knowledge bases. Implemented conversational retrieval by condensing multi-turn chat history, developed multimodal retrieval supporting technical documentation and images, and integrated Langfuse for end-to-end observability and prompt cost monitoring.",
+    "tags": ["LangChain", "Qdrant", "OpenAI", "FastAPI", "Docker", "Langfuse", "Azure DevOps", "Streamlit"],
+    "githubUrl": "",
+    "liveUrl": "",
+    "thumbnail": "",
+    "featured": true,
+    "year": 2025
+  },
+  {
+    "id": "project-4",
+    "title": "Agentic RAG Legal QA System",
+    "description": "Multi-agent legal QA system with dual-layer RAG, fine-tuned models, and procedural validation.",
+    "longDescription": "Architected a dual-layer RAG system for Vietnamese legal QA with structure-aware chunking, metadata-enriched retrieval, and procedural templates for multi-step statutory queries. Fine-tuned Llama 3 8B and Mistral 7B with QLoRA (4-bit quantization) on curated Vietnamese legal Q&A data to improve grounding and citation behavior. Built a multi-agent pipeline for routing, retrieval, guardrails, validation, and caching; benchmarked against single-step RAG baseline.",
+    "tags": ["LangGraph", "LangChain", "Llama 3", "Mistral", "QLoRA", "ChromaDB", "RAGAS", "Docling"],
+    "githubUrl": "",
+    "liveUrl": "",
+    "thumbnail": "",
+    "featured": true,
+    "year": 2025
+  },
+  {
+    "id": "project-5",
+    "title": "EV SHIFT: Data Quality Assurance Pipelines",
+    "description": "AI-focused data collection and quality assurance pipelines for domain-specific datasets.",
+    "longDescription": "Built data collection and quality assurance pipelines for domain-specific EV datasets including crawling, preprocessing, validation, and semantic consistency checks. Implemented AI-focused crawling with Playwright and Selenium, integrated Crawl4AI with LLMs for document processing, content quality scoring, prompt engineering, and task-specific generation with evaluation workflows.",
+    "tags": ["Playwright", "Selenium", "Crawl4AI", "VN_nlp_core", "Matplotlib", "LLM Integration"],
+    "githubUrl": "",
+    "liveUrl": "",
+    "thumbnail": "",
+    "featured": false,
+    "year": 2026
+  }
+]

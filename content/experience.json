@@ -1,0 +1,61 @@
+[
+  {
+    "id": "job-1",
+    "role": "AI Engineer",
+    "company": "VinBigData",
+    "companyUrl": "https://vinbigdata.com",
+    "location": "Hanoi, Vietnam",
+    "startDate": "2025-07",
+    "endDate": "2026-05",
+    "highlights": [
+      "Top 8% selection (70 of 900+ applicants) in competitive AI Engineer Training Program",
+      "Designed persistent multi-agent life assistant with LangGraph orchestration, long-term memory, RAG retrieval, and real-time web research",
+      "Worked across research-oriented project rotations: production conversational AI system and enterprise multi-agent orchestration framework"
+    ],
+    "tags": ["LangGraph", "Mem0", "OpenAI", "Tavily Search", "FastAPI", "Pydantic", "Multi-Agent Systems"]
+  },
+  {
+    "id": "job-2",
+    "role": "AI Engineer",
+    "company": "IMT Solutions",
+    "companyUrl": "https://imtsolutions.vn",
+    "location": "Ho Chi Minh City, Vietnam",
+    "startDate": "2024-06",
+    "endDate": "2025-07",
+    "highlights": [
+      "Built and maintained production RAG chatbot for company-wide knowledge access with retrieval design and grounding quality",
+      "Architected end-to-end Intelligent Document Processing (IDP) pipeline: parallelized OCR + LLM inference, 70% latency reduction, 2,000-5,000+ invoices/day at >95% accuracy",
+      "Containerized document-processing services with FastAPI and Docker, deployed scalable ETL workflows with Apache Airflow and PySpark"
+    ],
+    "tags": ["FastAPI", "Docker", "RAG", "Qdrant", "Qwen2.5-VL", "YOLO", "Airflow", "PySpark", "Azure DevOps"]
+  },
+  {
+    "id": "job-3",
+    "role": "Data Scientist Intern",
+    "company": "FPT Software",
+    "companyUrl": "https://fpt-software.com",
+    "location": "Ho Chi Minh City, Vietnam",
+    "startDate": "2024-03",
+    "endDate": "2024-06",
+    "highlights": [
+      "Fine-tuned encoder-only transformer models (BERT, RoBERTa) on labeled Vietnamese datasets for comment classification",
+      "Built end-to-end text classification pipeline covering preprocessing, feature engineering, and model evaluation"
+    ],
+    "tags": ["BERT", "RoBERTa", "Transformers", "NLP", "Vietnamese NLP"]
+  },
+  {
+    "id": "job-4",
+    "role": "Technical Owner, Agentic Legal QA System",
+    "company": "Ton Duc Thang University",
+    "companyUrl": "https://tdt.edu.vn",
+    "location": "Ho Chi Minh City, Vietnam",
+    "startDate": "2024-03",
+    "endDate": "2024-06",
+    "highlights": [
+      "Designed and implemented multi-agent legal QA system with routing, RAG retrieval, answer validation, and guardrails",
+      "Built dual-layer RAG with structure-aware legal chunking and enriched metadata for vector retrieval",
+      "Fine-tuned Llama 3 8B and Mistral 7B with QLoRA on curated Vietnamese legal Q&A data, evaluated against single-step RAG baseline"
+    ],
+    "tags": ["LangChain", "LangGraph", "Llama 3", "Mistral", "QLoRA", "ChromaDB", "RAGAS"]
+  }
+]
