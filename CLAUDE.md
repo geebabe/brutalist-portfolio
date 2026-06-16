@@ -28,7 +28,7 @@ All UI follows `personal_information/brutalist_style.md` strictly. Key rules:
 | `components/layout/Navbar.tsx` | Fixed nav, chrome dots, ~/portfolio, mobile [menu] |
 | `components/layout/Footer.tsx` | $ exit / Connection closed. |
 | `components/sections/Hero.tsx` | TerminalWindow + Typewriter (client component) |
-| `components/sections/About.tsx` | $ cat README.md layout, grayscale photo |
+| `components/sections/About.tsx` | $ cat README.md layout, color photo (no grayscale) |
 | `components/sections/Skills.tsx` | ls -l format with amber categories |
 | `components/sections/Projects.tsx` | $ cat projects/slug.md per project |
 | `components/sections/Experience.tsx` | git log format with amber commit hashes |
@@ -50,3 +50,15 @@ All UI follows `personal_information/brutalist_style.md` strictly. Key rules:
 npm run dev    # development server
 npm run build  # production build (also runs next-sitemap postbuild)
 ```
+
+## Session notes (2026-06-16)
+
+### Completed
+- Removed grayscale filter from avatar in `components/sections/About.tsx` — photo now displays in full color
+
+### Known issues (not yet fixed)
+- **Hero blank on first load:** Typewriter animation takes ~4s to reveal content; the page looks empty until it finishes. Consider pre-rendering the final state and animating it in faster, or reducing delay between chars.
+- **Section padding too generous:** Each section uses `clamp(60px, 8vw, 100px)` top+bottom — creates ~200px of dead space between sections. Suggested: reduce to `clamp(40px, 5vw, 70px)`.
+- **`#444444` labels nearly invisible:** Metadata labels in Projects (`# Stack`, `# Year`, `# Links`) and comment markers use `#444444` which is ~2:1 contrast on `#090909` — fails WCAG. Suggested: bump to `#666666` minimum.
+- **Body text (`#888888`) feels faded:** Not a hard bug but reads as washed-out. Suggested: bump to `#AAAAAA` for body copy.
+- **Navbar links run together:** Nav items have no spacing between them at certain viewport widths (screenshot showed `aboutskillsprojectsexperienceblogcontact` as one word).

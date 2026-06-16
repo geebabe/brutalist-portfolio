@@ -80,7 +80,7 @@ export function About() {
                 width: '100%',
                 aspectRatio: '1',
                 objectFit: 'cover',
-                filter: 'grayscale(100%) contrast(1.1)',
+                filter: 'contrast(1.05)',
                 border: '1px solid #1F1F1F',
                 display: 'block',
               }}

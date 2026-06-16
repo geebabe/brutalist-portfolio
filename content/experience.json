@@ -1,5 +1,18 @@
 [
   {
+    "id": "job-0",
+    "role": "Research Assistant - AI Researcher",
+    "company": "VinNLP - VinUniversity",
+    "companyUrl": "https://vinnlp.com/policyverse.html",
+    "location": "Hanoi, Vietnam",
+    "startDate": "2026-05",
+    "endDate": "now",
+    "highlights": [
+      "Working as a research assistant under the supervision of Prof Mo El-haj"
+    ],
+    "tags": ["Multi-Agent Systems", "Research", "LegalNLP", "Multilingual", "Multi-agent"]
+  },
+  {
     "id": "job-1",
     "role": "AI Engineer",
     "company": "VinBigData",
