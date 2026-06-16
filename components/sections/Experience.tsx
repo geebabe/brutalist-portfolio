@@ -1,34 +1,19 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
 import experienceData from '@/content/experience.json'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+const HEAVY = '━'.repeat(64)
+
+function fmtDate(dateStr: string) {
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-const lineVariants = {
-  hidden: { scaleY: 0, originY: 0 },
-  visible: {
-    scaleY: 1,
-    transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] },
-  },
+function shortHash(id: string) {
+  const chars = 'abcdef0123456789'
+  let hash = ''
+  for (let i = 0; i < 7; i++) {
+    hash += chars[(id.charCodeAt(i % id.length) * (i + 1)) % chars.length]
+  }
+  return hash
 }
 
 export function Experience() {
@@ -37,59 +22,81 @@ export function Experience() {
   )
 
   return (
-    <section id="experience" className="section-spacing px-6">
-      <motion.div
-        className="max-w-3xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — A record of service</p>
-          <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight mb-12">
-            Experience
-          </h2>
-        </motion.div>
+    <section id="experience" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
+        <div className="prompt-line" style={{ marginBottom: 48 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            git log --oneline --experience
+          </span>
+        </div>
 
-        <motion.div className="relative pl-10">
-          <motion.div
-            variants={lineVariants}
-            className="absolute left-0 top-0 bottom-0 w-px bg-border-dim"
-          />
+        {sorted.map((job, idx) => {
+          const isHead = idx === 0
+          const startLabel = fmtDate(job.startDate)
+          const endLabel = job.endDate ? fmtDate(job.endDate) : 'Present'
 
-          <div className="space-y-12">
-            {sorted.map((job) => (
-              <motion.div key={job.id} variants={itemVariants} className="relative">
-                <span className="absolute -left-5 top-1 text-violet font-mono text-xs">◈</span>
-                <div className="space-y-2 mb-4">
-                  <h3 className="font-mono text-sm uppercase tracking-wide text-parchment">
-                    {job.role}
-                  </h3>
-                  <p className="text-parchment-dim font-mono text-xs uppercase tracking-wide">
-                    {job.company} · {new Date(job.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} – {job.endDate ? new Date(job.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'} · {job.location}
-                  </p>
-                </div>
-                <ul className="space-y-2 mb-4">
-                  {job.highlights?.map((highlight, idx) => (
-                    <li key={idx} className="flex gap-3 text-sm text-parchment-mid">
-                      <span className="text-violet-dim flex-shrink-0 mt-1">◈</span>
-                      <span>{highlight}</span>
+          return (
+            <div key={job.id}>
+              {idx > 0 && (
+                <p className="divider heavy" style={{ margin: '32px 0' }}>{HEAVY}</p>
+              )}
+
+              <div className="prompt-line" style={{ marginBottom: 4 }}>
+                <span style={{ color: '#444444' }}>commit</span>
+                <span style={{ color: '#FFB800', marginLeft: 8 }}>{shortHash(job.id)}</span>
+                {isHead && (
+                  <span style={{ color: '#00FF88', marginLeft: 8 }}>(HEAD → present)</span>
+                )}
+              </div>
+
+              <div className="prompt-line" style={{ marginBottom: 4 }}>
+                <span style={{ color: '#444444' }}>Author:</span>
+                <span style={{ color: '#888888', marginLeft: 8 }}>Nguyen Minh Chi</span>
+              </div>
+
+              <div className="prompt-line" style={{ marginBottom: 16 }}>
+                <span style={{ color: '#444444' }}>Date:</span>
+                <span style={{ color: '#444444', marginLeft: 8 }}>{startLabel} — {endLabel}</span>
+              </div>
+
+              <div style={{ paddingLeft: 24, marginBottom: 12 }}>
+                <p style={{ color: '#E8E8E8', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>
+                  {job.role} @{' '}
+                  <a
+                    href={job.companyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover-green-from-white"
+                  >
+                    {job.company}
+                  </a>
+                </p>
+
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 }}>
+                  {job.highlights.map((h, i) => (
+                    <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                      <span style={{ color: '#444444', flexShrink: 0 }}>-</span>
+                      <span style={{ color: '#888888', fontSize: 13, lineHeight: 1.8 }}>{h}</span>
                     </li>
                   ))}
                 </ul>
+
                 {job.tags && (
-                  <p className="text-parchment-dim font-mono text-xs uppercase tracking-wide">
-                    {job.tags.join(' · ')}
-                  </p>
+                  <div className="prompt-line">
+                    <span style={{ color: '#444444' }}>Tags:</span>
+                    <span style={{ color: '#888888', marginLeft: 8, fontSize: 13 }}>
+                      {job.tags.join(' · ')}
+                    </span>
+                  </div>
                 )}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </motion.div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </section>
   )
 }

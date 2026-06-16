@@ -1,77 +1,96 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
+const HEAVY = '━'.repeat(64)
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
-}
+const quickFacts = [
+  { key: 'Location',  value: 'Ho Chi Minh City, Vietnam' },
+  { key: 'Status',    value: 'Open to remote opportunities' },
+  { key: 'Focus',     value: 'LLM systems, RAG, production ML' },
+  { key: 'Languages', value: 'Python, TypeScript, SQL' },
+]
 
 export function About() {
   return (
-    <section id="about" className="section-spacing px-6">
-      <motion.div
-        className="max-w-5xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — On the nature of the work</p>
-          <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight mb-4">
-            On Building Minds
-          </h2>
-        </motion.div>
+    <section id="about" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <motion.div variants={containerVariants} className="space-y-6">
-            <motion.p variants={itemVariants} className="text-body">
-              As an AI Engineer, I specialize in architecting and implementing sophisticated AI systems that push the boundaries of language understanding and generation. My work involves leveraging cutting-edge large language models and machine learning techniques to solve complex problems in resource-constrained settings.
-            </motion.p>
-            <motion.p variants={itemVariants} className="text-body">
-              Currently building production conversational AI systems at VinBigData. Previously developed scalable RAG pipelines and document-AI services at IMT Solutions. Focused on bridging the gap between research and production deployment, with particular emphasis on low-resource NLP and multilingual systems.
-            </motion.p>
-            <motion.p variants={itemVariants} className="text-caption">
-              HO CHI MINH CITY, VIETNAM · OPEN TO REMOTE · AI ENGINEERING
-            </motion.p>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="flex justify-center md:justify-end">
-            <div className="relative w-72 h-96">
-              <Image
-                src="/avatar.jpg"
-                alt="Profile"
-                width={288}
-                height={384}
-                className="w-full h-full object-cover border border-border-dim"
-                style={{
-                  filter: 'grayscale(20%) sepia(10%)',
-                  boxShadow: '0 0 40px rgba(107, 94, 168, 0.15)',
-                }}
-              />
-            </div>
-          </motion.div>
+        <div className="prompt-line" style={{ marginBottom: 32 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            cat README.md
+          </span>
         </div>
-      </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_200px] gap-12 items-start">
+          {/* Prose */}
+          <div>
+            <div className="prompt-line" style={{ marginBottom: 16 }}>
+              <span className="prefix" style={{ color: '#444444' }}>#</span>
+              <span style={{ color: '#00FF88', fontWeight: 700, fontSize: 16 }}>About</span>
+            </div>
+
+            <div style={{ maxWidth: 640, marginBottom: 32 }}>
+              <div className="prompt-line" style={{ marginBottom: 8 }}>
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span style={{ color: '#888888' }}>
+                  As an AI Engineer, I architect and build production AI systems — RAG pipelines, agentic workflows, and LLM-powered services that run at scale. My work lives at the intersection of research and deployment.
+                </span>
+              </div>
+              <div className="prompt-line" style={{ marginBottom: 8 }}>
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span style={{ color: '#888888' }}>
+                  Previously at VinBigData and IMT Solutions, building conversational AI and intelligent document processing systems serving thousands of users daily.
+                </span>
+              </div>
+              <div className="prompt-line">
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span style={{ color: '#888888' }}>
+                  Curious about low-resource NLP and multilingual systems. Ships things that actually work in production.
+                </span>
+              </div>
+            </div>
+
+            <div className="prompt-line" style={{ marginBottom: 16 }}>
+              <span className="prefix" style={{ color: '#444444' }}>#</span>
+              <span style={{ color: '#00FF88', fontWeight: 700, fontSize: 16 }}>Quick facts</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {quickFacts.map(({ key, value }) => (
+                <div key={key} className="prompt-line">
+                  <span className="prefix" style={{ color: '#888888' }}>→</span>
+                  <span>
+                    <span style={{ color: '#E8E8E8', display: 'inline-block', width: 96 }}>{key}</span>
+                    <span style={{ color: '#888888' }}>{value}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Photo */}
+          <div>
+            <Image
+              src="/avatar.jpg"
+              alt="Nguyen Minh Chi"
+              width={200}
+              height={200}
+              style={{
+                width: '100%',
+                aspectRatio: '1',
+                objectFit: 'cover',
+                filter: 'grayscale(100%) contrast(1.1)',
+                border: '1px solid #1F1F1F',
+                display: 'block',
+              }}
+            />
+            <p style={{ fontSize: 11, color: '#444444', textAlign: 'center', marginTop: 8 }}>
+              # avatar.jpg · 2025
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

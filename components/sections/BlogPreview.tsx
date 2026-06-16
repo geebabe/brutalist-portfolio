@@ -1,29 +1,18 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
-import { getAllPosts } from '@/lib/mdx'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { getAllPosts } from '@/lib/mdx'
 import { BlogPost } from '@/lib/types'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
+const HEAVY = '━'.repeat(64)
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
+function fmtDate(dateStr: string) {
+  const d = new Date(dateStr)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
 }
 
 export function BlogPreview() {
@@ -31,68 +20,80 @@ export function BlogPreview() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getAllPosts().then((posts) => {
-      setPosts(posts.slice(0, 3))
+    getAllPosts().then((p) => {
+      setPosts(p.slice(0, 5))
       setLoading(false)
     })
   }, [])
 
   return (
-    <section id="blog" className="section-spacing px-6">
-      <motion.div
-        className="max-w-5xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — Dispatches from the field</p>
-          <div className="flex justify-between items-baseline gap-8 mb-12">
-            <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight">
-              Writing
-            </h2>
-            <Link href="/blog" className="text-violet-dim hover:text-violet-bright transition-colors duration-300 font-mono text-xs uppercase tracking-ritual whitespace-nowrap">
-              All posts
-            </Link>
-          </div>
-        </motion.div>
+    <section id="blog" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
+        <div className="prompt-line" style={{ marginBottom: 32 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            ls ./blog --sort=date
+          </span>
+        </div>
 
         {loading ? (
-          <motion.div variants={itemVariants} className="text-center py-12 text-parchment-dim">
-            Loading posts...
-          </motion.div>
-        ) : posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {posts.map((post) => (
-              <motion.a
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                variants={itemVariants}
-                className="group card-accent"
-              >
-                <h3 className="font-display text-lg font-light italic text-parchment group-hover:text-violet-bright transition-colors mb-3 leading-snug">
-                  {post.title}
-                </h3>
-                <p className="text-caption mb-3 block">
-                  {new Date(post.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })} · {post.readingTime} min read
-                </p>
-                {post.tags && (
-                  <p className="text-caption">
-                    {post.tags.slice(0, 2).join(' · ')}
-                  </p>
-                )}
-              </motion.a>
-            ))}
+          <div className="prompt-line">
+            <span className="prefix" style={{ color: '#888888' }}>→</span>
+            <span style={{ color: '#888888' }}>Processing...</span>
           </div>
+        ) : posts.length === 0 ? (
+          <>
+            <div className="prompt-line" style={{ marginBottom: 8 }}>
+              <span style={{ color: '#444444' }}>#</span>
+              <span style={{ color: '#444444', marginLeft: 12 }}>0 posts found</span>
+            </div>
+            <div className="prompt-line">
+              <span className="prefix" style={{ color: '#888888' }}>→</span>
+              <span style={{ color: '#888888' }}>No posts yet. Check back soon.</span>
+            </div>
+          </>
         ) : (
-          <motion.div variants={itemVariants} className="text-center py-12 text-parchment-dim">
-            No blog posts yet. Check back soon!
-          </motion.div>
+          <>
+            <div className="prompt-line" style={{ marginBottom: 16 }}>
+              <span style={{ color: '#444444' }}>#</span>
+              <span style={{ color: '#444444', marginLeft: 12 }}>{posts.length} posts found</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {posts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div className="blog-row">
+                    <span style={{ color: '#444444', fontSize: 13 }}>{fmtDate(post.date)}</span>
+                    <span style={{ color: '#444444', fontSize: 13 }}>[{post.readingTime} min]</span>
+                    <span className="blog-slug" style={{ color: '#888888', fontSize: 13, transition: 'color 0.1s linear' }}>
+                      {post.slug}.md
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 24 }}>
+              <div className="prompt-line">
+                <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+                <Link
+                  href="/blog"
+                  className="hover-green"
+                  style={{ marginLeft: 12 }}
+                >
+                  ls ./blog --all
+                </Link>
+              </div>
+            </div>
+          </>
         )}
-      </motion.div>
+      </div>
     </section>
   )
 }

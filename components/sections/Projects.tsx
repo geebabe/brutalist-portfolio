@@ -1,85 +1,111 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
 import projectsData from '@/content/projects.json'
-import Link from 'next/link'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
+const HEAVY = '━'.repeat(64)
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
+function slugify(title: string) {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
 export function Projects() {
-  const featured = projectsData.filter((p) => p.featured).slice(0, 6)
+  const featured = projectsData.filter((p) => p.featured)
 
   return (
-    <section id="projects" className="section-spacing px-6">
-      <motion.div
-        className="max-w-3xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — The collected works</p>
-          <div className="flex justify-between items-baseline gap-8 mb-12">
-            <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight">
-              Of Systems Built
-            </h2>
-            <Link href="/projects" className="text-violet-dim hover:text-violet-bright transition-colors duration-300 font-mono text-xs uppercase tracking-ritual whitespace-nowrap">
-              View all
-            </Link>
-          </div>
-        </motion.div>
+    <section id="projects" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
+        <div className="prompt-line" style={{ marginBottom: 48 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            ls ./projects --featured
+          </span>
+        </div>
 
-        <div className="space-y-px mb-12">
-          {featured.map((project) => (
-            <motion.a
-              key={project.id}
-              href={`/projects/${project.id}`}
-              variants={itemVariants}
-              className="block group border-l border-violet-dim hover:border-violet transition-colors duration-300 py-6 pl-6 pr-4"
-            >
-              <div className="flex justify-between items-start gap-4 mb-2">
-                <h3 className="font-mono text-sm uppercase tracking-wide text-parchment group-hover:text-violet-bright transition-colors">
+        {featured.map((project, idx) => (
+          <div key={project.id}>
+            {idx > 0 && (
+              <p className="divider light" style={{ margin: '32px 0' }}>{'─'.repeat(64)}</p>
+            )}
+
+            <div className="prompt-line" style={{ marginBottom: 12 }}>
+              <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+              <span style={{ color: '#E8E8E8' }}>
+                cat projects/{slugify(project.title)}.md
+              </span>
+            </div>
+
+            <div style={{ paddingLeft: 26 }}>
+              <div className="prompt-line" style={{ marginBottom: 8 }}>
+                <span style={{ color: '#444444' }}>#</span>
+                <span style={{ color: '#E8E8E8', fontSize: 16, fontWeight: 700, marginLeft: 12 }}>
                   {project.title}
-                </h3>
-                <span className="text-violet-dim font-mono text-xs whitespace-nowrap flex-shrink-0">
-                  {project.year}
                 </span>
               </div>
-              <p className="text-parchment-mid text-sm leading-relaxed mb-3">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags?.slice(0, 3).map((tag) => (
-                  <span key={tag} className="text-violet-dim font-mono text-xs uppercase tracking-wide">
-                    {tag}
-                  </span>
+
+              <div style={{ maxWidth: 640, marginBottom: 12 }}>
+                {project.longDescription.split('. ').filter(Boolean).slice(0, 3).map((sentence, i) => (
+                  <div key={i} className="prompt-line">
+                    <span className="prefix" style={{ color: '#888888' }}>→</span>
+                    <span style={{ color: '#888888' }}>{sentence}{sentence.endsWith('.') ? '' : '.'}</span>
+                  </div>
                 ))}
               </div>
-            </motion.a>
-          ))}
-        </div>
-      </motion.div>
+
+              <div style={{ marginBottom: 8 }}>
+                <div className="prompt-line" style={{ marginBottom: 4 }}>
+                  <span style={{ color: '#444444' }}>#</span>
+                  <span style={{ color: '#E8E8E8', marginLeft: 12 }}>Stack</span>
+                </div>
+                <div className="prompt-line">
+                  <span className="prefix" style={{ color: '#888888' }}>→</span>
+                  <span style={{ color: '#888888' }}>{project.tags.join(' · ')}</span>
+                </div>
+              </div>
+
+              <div className="prompt-line" style={{ marginBottom: 8 }}>
+                <span style={{ color: '#444444' }}>#</span>
+                <span style={{ color: '#E8E8E8', marginLeft: 12 }}>Year</span>
+                <span style={{ color: '#888888', marginLeft: 24 }}>→ {project.year}</span>
+              </div>
+
+              {(project.githubUrl || project.liveUrl) && (
+                <div>
+                  <div className="prompt-line" style={{ marginBottom: 4 }}>
+                    <span style={{ color: '#444444' }}>#</span>
+                    <span style={{ color: '#E8E8E8', marginLeft: 12 }}>Links</span>
+                  </div>
+                  {project.githubUrl && (
+                    <div className="prompt-line">
+                      <span className="prefix" style={{ color: '#888888' }}>→</span>
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover-white-from-green"
+                      >
+                        [source: {project.githubUrl}]
+                      </a>
+                    </div>
+                  )}
+                  {project.liveUrl && (
+                    <div className="prompt-line">
+                      <span className="prefix" style={{ color: '#888888' }}>→</span>
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover-white-from-green"
+                      >
+                        [live: {project.liveUrl}]
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }

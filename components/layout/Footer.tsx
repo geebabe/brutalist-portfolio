@@ -1,28 +1,31 @@
 export function Footer() {
   return (
-    <footer className="border-t border-border-dim py-12 px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-caption">
-        <p>
-          © 2025 Nguyen Minh Chi · Built with Next.js
-        </p>
-        <div className="flex gap-6 font-mono text-xs uppercase tracking-wide">
-          <a
-            href="https://github.com/minhchi1804"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-parchment-dim hover:text-violet transition-colors duration-300"
-          >
-            GitHub
-          </a>
-          <span className="text-border-dim">·</span>
-          <a
-            href="https://linkedin.com/in/minhchi1804"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-parchment-dim hover:text-violet transition-colors duration-300"
-          >
-            LinkedIn
-          </a>
+    <footer style={{ borderTop: '1px solid #1F1F1F', padding: '48px clamp(20px, 4vw, 48px)' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p style={{ color: '#444444', fontSize: 12, marginBottom: 8 }}>$ exit</p>
+        <p style={{ color: '#444444', fontSize: 12, marginBottom: 24 }}>→ Connection closed.</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <span style={{ color: '#444444', fontSize: 12 }}># Nguyen Minh Chi · 2026 · Built with Next.js</span>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <a
+              href="https://github.com/minhchi1804"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover-green"
+              style={{ fontSize: 12 }}
+            >
+              github
+            </a>
+            <a
+              href="https://linkedin.com/in/minhchi1804"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover-green"
+              style={{ fontSize: 12 }}
+            >
+              linkedin
+            </a>
+          </div>
         </div>
       </div>
     </footer>

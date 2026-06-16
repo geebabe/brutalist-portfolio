@@ -1,69 +1,41 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
 import skillsData from '@/content/skills.json'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
-}
+const HEAVY = '━'.repeat(64)
 
 export function Skills() {
   return (
-    <section id="skills" className="section-spacing px-6">
-      <motion.div
-        className="max-w-6xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — The disciplines</p>
-          <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight mb-12">
-            On the Acquisition of Knowledge
-          </h2>
-        </motion.div>
+    <section id="skills" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
+        <div className="prompt-line" style={{ marginBottom: 32 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            ls ./skills --group-by=category
+          </span>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '32px 48px',
+        }}>
           {skillsData.map((category) => (
-            <motion.div
-              key={category.category}
-              variants={itemVariants}
-              className="card-accent"
-            >
-              <h3 className="font-mono text-sm uppercase tracking-wide text-parchment mb-6 block">
-                {category.category}
-              </h3>
-              <ul className="space-y-2">
-                {category.items.map((skill) => (
-                  <li key={skill.name} className="flex items-start gap-3">
-                    <span className="text-violet-dim text-xs mt-1 flex-shrink-0">◈</span>
-                    <span className="text-parchment-mid text-sm">{skill.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+            <div key={category.category}>
+              <div className="prompt-line" style={{ marginBottom: 4 }}>
+                <span style={{ color: '#00FF88', fontSize: 13 }}>drwxr-xr-x</span>
+                <span style={{ color: '#FFB800', fontSize: 13, marginLeft: 12 }}>{category.category}</span>
+              </div>
+              {category.items.map((skill) => (
+                <div key={skill.name} className="prompt-line" style={{ paddingLeft: 8 }}>
+                  <span style={{ color: '#444444', fontSize: 13 }}>-rw-r--r--</span>
+                  <span style={{ color: '#888888', fontSize: 13, marginLeft: 12 }}>{skill.name}</span>
+                </div>
+              ))}
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

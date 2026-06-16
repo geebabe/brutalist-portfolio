@@ -5,51 +5,54 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void:            '#080810',
-        'deep-indigo':   '#0E0C18',
-        shadow:          '#151225',
-        'border-dim':    '#1E1A35',
-        'border-mid':    '#2E2850',
-        'violet-dim':    '#4B3F88',
-        violet:          '#6B5EA8',
-        'violet-bright': '#9B8FD8',
-        'parchment-dim': '#8A85A0',
-        'parchment-mid': '#C4BEDC',
-        parchment:       '#E8E4F0',
-        'parchment-light': '#F5F2FF',
-        'spice-gold':    '#C9A84C',
+        'terminal-black': '#090909',
+        surface:          '#0F0F0F',
+        'surface-raised': '#141414',
+        border:           '#1F1F1F',
+        'border-active':  '#2F2F2F',
+        green:            '#00FF88',
+        'green-dim':      '#00CC6A',
+        'green-muted':    'rgba(0,255,136,0.2)',
+        amber:            '#FFB800',
+        red:              '#FF3333',
+        white:            '#E8E8E8',
+        gray:             '#888888',
+        'gray-dim':       '#444444',
       },
       fontFamily: {
-        display: ['Cormorant Garamond', 'serif'],
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
-        mono:    ['JetBrains Mono', 'monospace'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
-      letterSpacing: {
-        ritual:  '0.2em',
-        wide:    '0.1em',
-        normal:  '0.04em',
+      borderRadius: {
+        DEFAULT: '0',
+        none:    '0',
+        sm:      '0',
+        md:      '0',
+        lg:      '0',
+        xl:      '0',
+        full:    '9999px',
       },
       animation: {
-        'glow-pulse': 'glowPulse 8s ease-in-out infinite',
-        'fade-up':    'fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        blink:    'blink 1s step-end infinite',
+        scanline: 'scanline 8s linear infinite',
       },
       keyframes: {
-        glowPulse: {
-          '0%, 100%': { opacity: '0.6' },
-          '50%':      { opacity: '1' },
+        blink: {
+          '0%, 100%': { opacity: '1' },
+          '50%':      { opacity: '0' },
         },
-        fadeUp: {
-          '0%':   { opacity: '0', transform: 'translateY(24px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        scanline: {
+          '0%':   { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100vh)' },
         },
       },
       spacing: {
-        section: 'clamp(80px, 12vw, 140px)',
-      },
-      maxWidth: {
-        prose: '640px',
-        wide: '900px',
-        full: '1100px',
+        1: '8px',
+        2: '16px',
+        3: '24px',
+        4: '32px',
+        5: '40px',
+        6: '48px',
+        8: '64px',
       },
     },
   },
@@ -57,4 +60,5 @@ const config: Config = {
     require('@tailwindcss/typography'),
   ],
 }
+
 export default config

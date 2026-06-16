@@ -1,70 +1,120 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'about',      href: '#about' },
+  { label: 'skills',     href: '#skills' },
+  { label: 'projects',   href: '#projects' },
+  { label: 'experience', href: '#experience' },
+  { label: 'blog',       href: '/blog' },
+  { label: 'contact',    href: '#contact' },
 ]
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 60)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   return (
-    <nav className={`fixed top-0 z-50 w-full py-4 px-6 md:px-12 bg-void/80 backdrop-blur-md transition-all duration-300 ${scrolled ? 'border-b border-border-dim' : 'border-b border-transparent'}`}>
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="#" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="font-mono text-parchment text-xs uppercase tracking-ritual whitespace-nowrap">
-          ◈ Nguyen Minh Chi
+    <nav
+      style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 50,
+        height: '48px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 clamp(20px, 4vw, 48px)',
+        background: '#0F0F0F',
+        borderBottom: '1px solid #1F1F1F',
+      }}
+    >
+      {/* Left: chrome dots + path */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28C840', display: 'block' }} />
+        </div>
+        <Link
+          href="/"
+          style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#444444', textDecoration: 'none' }}
+        >
+          ~/portfolio
         </Link>
+      </div>
 
-        <div className="hidden md:flex items-center gap-8">
+      {/* Right: nav links (desktop) */}
+      <div className="hidden md:flex" style={{ gap: '32px' }}>
+        {navLinks.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 13,
+              color: '#888888',
+              textDecoration: 'none',
+              transition: 'color 0.1s linear',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#E8E8E8')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#888888')}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      {/* Mobile: [menu] button */}
+      <button
+        className="md:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 13,
+          color: '#00FF88',
+          background: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        {isOpen ? '[ close ]' : '[ menu ]'}
+      </button>
+
+      {/* Mobile dropdown */}
+      {isOpen && (
+        <div
+          className="md:hidden"
+          style={{
+            position: 'absolute',
+            top: '48px',
+            left: 0,
+            right: 0,
+            background: '#0F0F0F',
+            borderBottom: '1px solid #1F1F1F',
+            padding: '16px clamp(20px, 4vw, 48px)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
+        >
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-sans text-xs uppercase tracking-wide text-parchment-dim hover:text-parchment transition-colors duration-300"
+              onClick={() => setIsOpen(false)}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: '#888888',
+                textDecoration: 'none',
+              }}
             >
               {link.label}
             </a>
           ))}
-        </div>
-
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-parchment-light font-mono text-lg"
-        >
-          {isOpen ? '✕' : '◈'}
-        </button>
-      </div>
-
-      {isOpen && (
-        <div className="md:hidden bg-deep-indigo/95 border-b border-border-dim mt-2 rounded">
-          <div className="px-6 py-4 space-y-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="block font-sans text-xs uppercase tracking-wide text-parchment-dim hover:text-parchment transition-colors duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
         </div>
       )}
     </nav>

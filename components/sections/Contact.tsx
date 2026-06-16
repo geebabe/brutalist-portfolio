@@ -1,146 +1,202 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Toast } from '@/components/ui/Toast'
-import { OrnamentDivider } from '@/components/ui/OrnamentDivider'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const schema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  name:    z.string().min(2, 'Name must be at least 2 characters'),
+  email:   z.string().email('Invalid email address'),
   message: z.string().min(20, 'Message must be at least 20 characters'),
 })
 
 type FormData = z.infer<typeof schema>
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
+const HEAVY = '━'.repeat(64)
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
+const inputStyle: React.CSSProperties = {
+  background: 'transparent',
+  border: 'none',
+  borderBottom: '1px solid #1F1F1F',
+  padding: '4px 0',
+  fontFamily: "'JetBrains Mono', monospace",
+  fontSize: 14,
+  color: '#E8E8E8',
+  width: '100%',
+  outline: 'none',
+  caretColor: '#00FF88',
+  transition: 'border-color 0.1s linear',
 }
 
 export function Contact() {
-  const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+  const [loading, setLoading]   = useState(false)
+  const [success, setSuccess]   = useState(false)
+  const [serverError, setServerError] = useState('')
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
   const onSubmit = async (data: FormData) => {
     setLoading(true)
+    setServerError('')
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-
-      if (response.ok) {
-        setToast({ message: 'Message sent successfully!', type: 'success' })
+      if (res.ok) {
+        setSuccess(true)
         reset()
       } else {
-        setToast({ message: 'Failed to send message', type: 'error' })
+        setServerError('→ Error: Failed to send. [500]')
       }
-    } catch (error) {
-      setToast({ message: 'An error occurred', type: 'error' })
+    } catch {
+      setServerError('→ Error: Network failure. Try again.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <section id="contact" className="section-spacing px-6">
-      <motion.div
-        className="max-w-2xl mx-auto text-center"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        <motion.div variants={itemVariants}>
-          <p className="eyebrow">◈ — Open transmission</p>
-          <h2 className="font-display text-4xl lg:text-5xl font-light italic text-parchment leading-tight mb-4">
-            Speak and be heard
-          </h2>
-        </motion.div>
+    <section id="contact" style={{ padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 48px)', borderTop: '1px solid #1F1F1F' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="divider heavy" style={{ marginBottom: 32 }}>{HEAVY}</p>
 
-        <OrnamentDivider />
+        <div className="prompt-line" style={{ marginBottom: 48 }}>
+          <span className="prefix" style={{ color: '#00FF88' }}>$</span>
+          <span style={{ color: '#E8E8E8', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700 }}>
+            ./contact.sh
+          </span>
+        </div>
 
-        <motion.form onSubmit={handleSubmit(onSubmit)} variants={containerVariants} className="space-y-6 mt-12">
-          <motion.div variants={itemVariants}>
-            <label className="text-caption mb-2 block">Name</label>
-            <input
-              type="text"
-              placeholder="Your name"
-              {...register('name')}
-              className="w-full px-0 py-2 bg-transparent border-b border-border-mid text-parchment placeholder-parchment-dim focus:outline-none focus:border-violet transition-colors duration-300"
-            />
-            {errors.name && <p className="text-violet-dim text-xs mt-2">{errors.name.message}</p>}
-          </motion.div>
+        <div style={{ maxWidth: 640 }}>
+          <div className="prompt-line" style={{ marginBottom: 24 }}>
+            <span style={{ color: '#444444' }}>#</span>
+            <span style={{ color: '#444444', marginLeft: 12 }}>Send a transmission</span>
+          </div>
 
-          <motion.div variants={itemVariants}>
-            <label className="text-caption mb-2 block">Email</label>
-            <input
-              type="email"
-              placeholder="your@email.com"
-              {...register('email')}
-              className="w-full px-0 py-2 bg-transparent border-b border-border-mid text-parchment placeholder-parchment-dim focus:outline-none focus:border-violet transition-colors duration-300"
-            />
-            {errors.email && <p className="text-violet-dim text-xs mt-2">{errors.email.message}</p>}
-          </motion.div>
+          {success ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div className="prompt-line">
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span style={{ color: '#00FF88' }}>Message sent. [200 OK]</span>
+              </div>
+              <div className="prompt-line">
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span style={{ color: '#888888' }}>I&apos;ll get back to you soon.</span>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* Name */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 16 }}>
+                <label style={{ fontSize: 13, color: '#888888', whiteSpace: 'nowrap', flexShrink: 0, width: 200 }}>
+                  <span style={{ color: '#00FF88' }}>→ </span>Enter your name:
+                </label>
+                <div style={{ flex: 1 }}>
+                  <input
+                    type="text"
+                    {...register('name')}
+                    style={inputStyle}
+                    onFocus={e => (e.currentTarget.style.borderBottomColor = '#00FF88')}
+                    onBlur={e => (e.currentTarget.style.borderBottomColor = '#1F1F1F')}
+                  />
+                  {errors.name && (
+                    <p style={{ color: '#FF3333', fontSize: 12, marginTop: 4 }}>→ {errors.name.message}</p>
+                  )}
+                </div>
+              </div>
 
-          <motion.div variants={itemVariants}>
-            <label className="text-caption mb-2 block">Message</label>
-            <textarea
-              placeholder="Tell me about your project..."
-              rows={4}
-              {...register('message')}
-              className="w-full px-0 py-2 bg-transparent border-b border-border-mid text-parchment placeholder-parchment-dim focus:outline-none focus:border-violet transition-colors duration-300 resize-none"
-            />
-            {errors.message && <p className="text-violet-dim text-xs mt-2">{errors.message.message}</p>}
-          </motion.div>
+              {/* Email */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 16 }}>
+                <label style={{ fontSize: 13, color: '#888888', whiteSpace: 'nowrap', flexShrink: 0, width: 200 }}>
+                  <span style={{ color: '#00FF88' }}>→ </span>Enter your email:
+                </label>
+                <div style={{ flex: 1 }}>
+                  <input
+                    type="email"
+                    {...register('email')}
+                    style={inputStyle}
+                    onFocus={e => (e.currentTarget.style.borderBottomColor = '#00FF88')}
+                    onBlur={e => (e.currentTarget.style.borderBottomColor = '#1F1F1F')}
+                  />
+                  {errors.email && (
+                    <p style={{ color: '#FF3333', fontSize: 12, marginTop: 4 }}>→ {errors.email.message}</p>
+                  )}
+                </div>
+              </div>
 
-          <motion.button
-            variants={itemVariants}
-            type="submit"
-            disabled={loading}
-            className="btn-primary mt-8"
-          >
-            {loading ? 'Sending transmission...' : 'Send transmission'}
-          </motion.button>
-        </motion.form>
+              {/* Message */}
+              <div style={{ marginBottom: 24 }}>
+                <div className="prompt-line" style={{ marginBottom: 8 }}>
+                  <span style={{ color: '#00FF88' }}>→ </span>
+                  <span style={{ color: '#888888' }}>Enter your message:</span>
+                </div>
+                <textarea
+                  {...register('message')}
+                  rows={5}
+                  style={{
+                    ...inputStyle,
+                    resize: 'vertical',
+                    minHeight: 100,
+                    border: '1px solid #1F1F1F',
+                    padding: 12,
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = '#00FF88')}
+                  onBlur={e => (e.currentTarget.style.borderColor = '#1F1F1F')}
+                />
+                {errors.message && (
+                  <p style={{ color: '#FF3333', fontSize: 12, marginTop: 4 }}>→ {errors.message.message}</p>
+                )}
+              </div>
 
-        <motion.div variants={itemVariants} className="text-caption mt-8">
-          Or reach me directly at{' '}
-          <a href="mailto:minhchi1804@gmail.com" className="text-violet hover:text-violet-bright transition-colors duration-300">
-            minhchi1804@gmail.com
-          </a>
-        </motion.div>
-      </motion.div>
+              {serverError && (
+                <p style={{ color: '#FF3333', fontSize: 13, marginBottom: 16 }}>{serverError}</p>
+              )}
 
-      {toast && <Toast message={toast.message} type={toast.type} />}
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary"
+                style={{ opacity: loading ? 0.7 : 1 }}
+              >
+                {loading ? 'sending...' : 'send --message'}
+              </button>
+            </form>
+          )}
+
+          {/* Direct links */}
+          <div style={{ marginTop: 48 }}>
+            <div className="prompt-line" style={{ marginBottom: 8 }}>
+              <span style={{ color: '#444444' }}>#</span>
+              <span style={{ color: '#444444', marginLeft: 12 }}>Or reach me directly:</span>
+            </div>
+            {[
+              { label: 'email',    value: 'minhchi1804@gmail.com', href: 'mailto:minhchi1804@gmail.com' },
+              { label: 'github',   value: 'github.com/minhchi1804',  href: 'https://github.com/minhchi1804' },
+              { label: 'linkedin', value: 'linkedin.com/in/minhchi1804', href: 'https://linkedin.com/in/minhchi1804' },
+            ].map(({ label, value, href }) => (
+              <div key={label} className="prompt-line">
+                <span className="prefix" style={{ color: '#888888' }}>→</span>
+                <span>
+                  <span style={{ color: '#E8E8E8', display: 'inline-block', width: 80 }}>{label}:</span>
+                  <a
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    className="hover-white-from-green"
+                  >
+                    {value}
+                  </a>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
